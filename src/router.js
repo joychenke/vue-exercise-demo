@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Home from "./views/Home.vue";
+import Empty from "./views/Empty.vue";
 
 Vue.use(Router);
 
@@ -9,16 +9,36 @@ export default new Router({
     {
       path: "/",
       name: "home",
-      component: Home
+      component: () => import("./views/About.vue")
     },
     {
-      path: "/about",
-      name: "about",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
+      path: "/slot",
+      name: "slotComponent",
       component: () =>
-        import(/* webpackChunkName: "about" */ "./views/About.vue")
+        import("./views/slot/SlotComponent.vue")
+    },{
+      path: "/iterator",
+      name: "iterator",
+      component: () => import("./views/iterator/Iterator.vue")
+    },{
+      path: "/generator",
+      name: "generator",
+      component: () => import("./views/Generator/Generator.vue")
+    },{
+      path: "/eventemitter",
+      name: "eventemitter",
+      component: () => import("./views/eventemitter/Eventemitter.vue")
+    },
+    {
+      path: "*",
+      name: "empty",
+      component: Empty
     }
   ]
 });
+
+const originalPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
+
