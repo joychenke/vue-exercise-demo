@@ -6,7 +6,7 @@
       <el-radio label="three">slot three</el-radio>
     </el-radio-group>
     <base-component>
-    我也是传给默认插槽的内容
+    我也是传给默认插槽的内容 
             
     </base-component>
   </div>  
