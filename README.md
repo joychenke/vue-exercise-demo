@@ -1,29 +1,13 @@
 # vue-exercise-demo
 
-## Project setup
-```
-npm install
-```
+### 项目说明
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+这是一个练习项目
 
-### Compiles and minifies for production
-```
-npm run build
-```
+joychenke的vue练习，目前包括：
 
-### Run your tests
-```
-npm run test
-```
+1. ES6的部分语法
+2. vue使用：插槽，computed
+3. 其他：eventemitter2， 的bounce
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+后续还会继续补充
