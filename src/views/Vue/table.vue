@@ -1,14 +1,17 @@
 <template>
-  <el-table :data="tableData" style="width: 100%">
-    <el-table-column v-for="header in headers" :key="header.id">
-      <template slot="header" slot-scope="scope">
+  <el-table :data="tableData"
+            style="width: 100%">
+    <el-table-column v-for="header in headers"
+                     :key="header.id">
+      <template slot="header"
+                slot-scope="scope">
         <span @click="handleClick(scope)">{{ header.fieldName }}</span>
-        <filter-popover
-          :ref="header.fieldName"
-          :fieldName="header.fieldName"
-          :value="currentField"
-          @input="handleInput"
-        ></filter-popover>
+        <filter-popover :ref="header.fieldName"
+                        :fieldName="header.fieldName"
+                        :value="currentField"
+                        @input="handleInput">
+        </filter-popover>
+
       </template>
       <template slot-scope="scope">
         <p>{{ scope.row[header.fieldName] }}</p>
@@ -33,7 +36,7 @@ export default {
       console.log("父组件改变了value哦~~");
       this.currentField = value;
     },
-    handleClick(scope) {}
+    handleClick(scope) { }
   }
 };
 </script>

@@ -1,17 +1,6 @@
 <template>
-  <el-popover
-    placement="bottom"
-    title="标题"
-    width="200"
-    trigger="manual"
-    v-model="visible"
-  >
-    <i
-      class="el-icon-edit"
-      slot="reference"
-      @click.stop="handleClick"
-      style="cursor: pointer;"
-    ></i>
+  <el-popover placement="bottom" title="标题" width="200" trigger="manual" v-model="visible">
+    <i class="el-icon-edit" slot="reference" @click.stop="handleClick" style="cursor: pointer;"></i>
     <div style="height: 100px; width: 100px;">
       <div>我是内容啊</div>
       <el-button @click="handleFilter">筛选</el-button>
