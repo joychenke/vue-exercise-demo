@@ -30,6 +30,11 @@ export default new Router({
       component: () => import("./views/eventemitter/Eventemitter.vue")
     },
     {
+      path: "/vuepart",
+      name: "vuepart",
+      component: () => import("./views/Vue/index.vue")
+    },
+    {
       path: "*",
       name: "empty",
       component: Empty

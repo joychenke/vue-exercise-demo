@@ -12,32 +12,32 @@
       <el-button type="primary" @click="handleClick('generator')">Generator</el-button>
     </el-button-group>
     <el-button-group v-else-if="radio === 'vue'">
-      <el-button type="primary" @click="handleClick('slot')">插槽</el-button>      
-    </el-button-group>   
+      <el-button type="primary" @click="handleClick('vue')">Vue相关组件</el-button>
+    </el-button-group>
     <el-button-group v-else-if="radio === 'emitter'">
-      <el-button type="primary" @click="handleClick('eventemitter')">evemtemitter2</el-button> 
-    </el-button-group> 
+      <el-button type="primary" @click="handleClick('eventemitter')">evemtemitter2</el-button>
+    </el-button-group>
   </div>
 </template>
 <script>
 export default {
-  data(){
+  data() {
     return {
       radio: "es6"
-    }
+    };
   },
   methods: {
-    handleChange(){
-      this.$emit("changeRouter", "")
+    handleChange() {
+      this.$emit("changeRouter", "");
     },
-    handleClick(type){
-      this.$emit("changeRouter", type)
+    handleClick(type) {
+      this.$emit("changeRouter", type);
     }
   }
-}
+};
 </script>
 <style lang="less" scoped>
-.el-button-group{
+.el-button-group {
   display: block;
   margin-top: 20px;
 }

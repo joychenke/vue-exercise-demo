@@ -12,54 +12,50 @@
 </template>
 
 <script>
-import operateHeader from "./components/OperateHeader.vue"
-export default {  
-  name: 'app',
-  data(){
-    return {
-
-    }
+import operateHeader from "./components/OperateHeader.vue";
+export default {
+  name: "app",
+  data() {
+    return {};
   },
   components: { operateHeader },
   methods: {
-    handleChangeRouter(name){
-      if(!name){
-        this.$router.push({name: "empty"})
+    handleChangeRouter(name) {
+      if (!name) {
+        this.$router.push({ name: "empty" });
       }
-      switch (name){
-        case "slot":
-          this.$router.push({name: "slotComponent"})
+      switch (name) {
+        case "vue":
+          this.$router.push({ name: "vuepart" });
           break;
         case "iterator":
-          console.log("haode")
-          this.$router.push("/iterator")
+          console.log("haode");
+          this.$router.push("/iterator");
           break;
         case "generator":
-          this.$router.push({name: "generator"})
+          this.$router.push({ name: "generator" });
           break;
-        case "eventemitter": 
-          this.$router.push({name: "eventemitter"})
+        case "eventemitter":
+          this.$router.push({ name: "eventemitter" });
       }
     }
   }
-}
+};
 </script>
 
 <style lang="less">
-#app{
+#app {
   & > .el-container {
     height: 100%;
     & .el-header {
-      background-color: #B3C0D1;
+      background-color: #b3c0d1;
       color: #333;
     }
     & .el-main {
-      background-color: #E9EEF3;
+      background-color: #e9eef3;
       color: #333;
       text-align: center;
     }
   }
 }
-
-
 </style>
