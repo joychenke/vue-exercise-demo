@@ -17,17 +17,22 @@
         <p>{{ scope.row[header.fieldName] }}</p>
       </template>
     </el-table-column>
+    <template v-slot:append>
+      <p>{{debounceFnDetail}}</p>
+    </template>
   </el-table>
 </template>
 <script>
 import { data, headers } from "./tableData";
 import filterPopover from "./filterPopover.vue";
+import { debounce } from "debounce"
 export default {
   data() {
     return {
       tableData: data,
       headers: headers,
-      currentField: "123"
+      currentField: "123",
+      debounceFnDetail: ""
     };
   },
   components: { filterPopover },
@@ -36,7 +41,17 @@ export default {
       console.log("父组件改变了value哦~~");
       this.currentField = value;
     },
-    handleClick(scope) { }
+    handleClick(scope) {
+      console.log(scope)
+      /* window.onresize = () => {
+        console.log(window.innerWidth)
+      } */
+      let debounceFn = debounce(() => {
+        console.log(window.innerWidth)
+      }, 1000, true)
+      this.debounceFnDetail = debounceFn
+      window.onresize = debounceFn
+    }
   }
 };
 </script>
