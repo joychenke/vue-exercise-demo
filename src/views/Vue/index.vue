@@ -3,7 +3,10 @@
     Vue 模块
     <el-input v-model="fieldValue"></el-input>
     <h1>===================父子模块分割线================</h1>
-    <computed-com v-model="fieldValue"></computed-com>
+    <computed-com
+      :value="fieldValue"
+      @changeVal="handleChangeVal"
+    ></computed-com>
     <h1>===================table popover分割线================</h1>
     <table-com></table-com>
   </div>
@@ -17,6 +20,12 @@ export default {
       fieldValue: ""
     };
   },
-  components: { computedCom, tableCom }
+  components: { computedCom, tableCom },
+  methods: {
+    handleChangeVal(value) {
+      console.log("父组件中，改变value");
+      this.fieldValue = `${value},append`;
+    }
+  }
 };
 </script>

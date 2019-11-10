@@ -30,6 +30,7 @@ export default {
   components: { filterPopover },
   methods: {
     handleInput(value) {
+      console.log("父组件改变了value哦~~");
       this.currentField = value;
     },
     handleClick(scope) {}
