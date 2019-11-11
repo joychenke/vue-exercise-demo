@@ -732,3 +732,52 @@ set和get的触发条件是：
 ## 侦听器
 
 使用场景：当需要在数据变化时，执行异步或者开销较大的操作时，用侦听器最合适。
+
+# Vue响应式
+
+## 如何追踪变化
+
+Vue将会遍历data选项中对象的所有属性，并使用Object.defineProperty把属性全部转化为getter和setter。
+
+组件实例对应一个watcher实例。它会在组件渲染过程中，把“接触”过的数据属性记录为依赖。依赖的setter触发时，会更新watcher，从而重新渲染组件。
+
+
+
+
+
+## 检测变化的注意事项
+
+无法检测到对象属性的添加或删除。
+
+为已有对象添加单个属性： `this.$set(this.someObject, "b", 2)`
+
+为已有对象添加多个属性：`Object.assign({}, this.someObject, {a:1, b:2})`
+
+无法检测到数组变更的两种操作：
+
+1. 利用索引设置数组像
+2. 直接修改数组长度 
+
+会触发视图更新的几种数组方法：
+
+`push()  pop()  shift()  unshift()  splice()  sort()  reverse()`
+
+解决问题一：
+
+1. 用this.$set  `this.$set(this.items, indexOfItem, newValue)`
+2. splice方法  `this.items.splice(this.items, indexOfItem, newValue)`
+
+解决问题二：
+
+`this.item.splice(newLength)`
+
+## 声明响应式属性
+
+ Vue 不允许动态添加根级响应式属性，所以你必须在初始化实例前声明所有根级响应式属性，哪怕只是一个空值
+
+## 异步更新队列
+
+
+
+
+
