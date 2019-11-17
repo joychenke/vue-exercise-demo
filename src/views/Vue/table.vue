@@ -1,6 +1,7 @@
 <template>
-  <el-table :data="tableData"
-            style="width: 100%">
+  <el-table :data="tableData" ref="table"
+            style="width: 100%" @select="handleSelect" @selection-change="handleSelChange">
+    <el-table-column type="selection" width="60"></el-table-column>
     <el-table-column v-for="header in headers"
                      :key="header.id">
       <template slot="header"
@@ -14,11 +15,12 @@
 
       </template>
       <template slot-scope="scope">
-        <p>{{ scope.row[header.fieldName] }}</p>
+        <p>{{ scope.row[header.fieldName] }}</p>        
       </template>
     </el-table-column>
     <template v-slot:append>
       <p>{{debounceFnDetail}}</p>
+      <el-button @click="selectRow">选择第二行</el-button>
     </template>
   </el-table>
 </template>
@@ -51,6 +53,17 @@ export default {
       }, 1000, true)
       this.debounceFnDetail = debounceFn
       window.onresize = debounceFn
+    },
+    handleSelect(val, row){
+      console.log(val)
+      console.log(row)
+    },
+    handleSelChange(val){
+      console.log(val)
+    },
+    selectRow(){
+      let row = this.tableData[1]
+      this.$refs["table"].toggleRowSelection(row, true)
     }
   }
 };
