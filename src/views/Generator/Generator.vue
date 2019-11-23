@@ -31,7 +31,7 @@
   </div>
 </template>
 <script>
-import { NEXT_OPTIONS, CHECK_OPTIONS, FOR_OPTIONS, THROW_OPTIONS, RETURN_OPTIONS } from "./options"
+import { NEXT_OPTIONS, CHECK_OPTIONS, FOR_OPTIONS, THROW_OPTIONS, RETURN_OPTIONS,YIELD_OPTIONS, OTHER_OPTIONS } from "./options"
 import { log } from 'util';
 export default {
   data() {
@@ -72,6 +72,12 @@ export default {
           break;
         case "return":
           currentOptions = RETURN_OPTIONS
+          break;
+        case "yield":
+          currentOptions = YIELD_OPTIONS
+          break;
+        case "other":
+          currentOptions = OTHER_OPTIONS
           break;
       }
       return currentOptions
@@ -337,6 +343,163 @@ export default {
       let arr = [g.next(), g.next(), g.next(), g.return(9), g.next(), g.next(), g.next()]
       console.log(arr)
     },
+    yieldeg1(){
+      function* foo(){
+        yield "a";
+        yield "b";
+      }
+      function* bar(){
+        yield "x";
+        yield* foo()
+        yield "y"
+      }
+      for(let v of bar()){
+        console.log(v)
+      }
+    },
+    yieldeg2(){
+      // 两个Generator函数A和B，A内部调用B，并且B中有return语句
+      function* A(){
+        yield "hello";
+        let c = yield* B();
+        console.log(c)
+        yield "chenke!"
+
+      }
+      function* B(){
+        yield "hao";
+        yield "are";
+        return "you"
+      }
+      let arr = [...A()]
+      console.log(arr)
+    },
+    yieldeg3(){
+      // yield 后面跟数组
+      function* A(){
+        yield* ["a","b","c"]
+      }
+      let i = 0
+      let obj = A()
+      while(i < 4){
+        console.log(obj.next())
+        i++
+      }
+      let read = (function* (){
+        yield "hello";
+        yield * "hello"
+      })()
+      let j = 0
+      while(j < 4){
+        console.log(read.next())
+        j ++
+      }
+    },
+    yieldeg4(){
+      function* foo(){
+        yield 2;
+        yield 3;
+        return "foo";
+      }
+      function* bar(){
+        yield 1;
+        var v = yield* foo();
+        console.log(v);
+        yield 4;
+      }
+      let i = 1;
+      let it = bar()
+      while(i < 7){
+        console.log(`打印第${i}次`)
+        console.log(it.next())
+        i ++
+      }
+
+      function* gen(){
+        yield "a";
+        yield "b";
+        return "result from gen"
+      }
+
+      function* log(obj){
+        let result = yield* gen();
+        console.log(result)
+      }
+      console.log([...log(gen())])
+    },
+    yieldeg5(){
+      /* 
+      数组含有Iterator接口，可以被yield*遍历
+      */
+      function* iterTree(data){
+          if(!Array.isArray(data)){
+              yield data
+          }else{
+            for(let i = 0; i < data.length; i ++){
+                yield* iterTree(data[i])
+            } 
+          }    
+      }
+      const tree = ["a","b",[1,2,[3,4,[5]]]]
+      console.log([...iterTree(tree)]) // ["a", "b", 1, 2, 3, 4, 5]
+    },
+    othereg1(){
+      function* G(){
+          
+      }
+      G.prototype.hello = function(){
+          return "hi"
+      }
+      let g = G()
+      console.log(g.hello())    
+    },
+    othereg2(){
+      function* G(){
+        let x = 1
+        yield x = 2;
+        yield this.c = 3;
+      }
+      let obj = {}
+      let g = G.call(obj)
+      // 用next遍历
+      let i = 1
+      while(i < 6){
+        console.log( `当前是第${i}次`)
+        console.log(g.next())
+        i ++
+      }
+    },
+    othereg3(){
+      function* G(){
+        this.a = 1;
+        yield this.b = 2;
+        yield this.c = 3;
+      }
+      // let f = G.call(G.prototype)
+      function F(){
+        return G.call(G.prototype)
+      }
+      let f = new F()
+      console.log(f.next())
+      console.log(f.next())
+      console.log(f.next())
+      console.log(f.a)
+      console.log(f.b)
+      console.log(f.c)
+    },
+    othereg4(){
+      /* Generator函数中yield的值可以直接通过for...of遍历出来 */
+      function* iteratorForObj(obj){
+        let keys = Object.keys(obj)
+        for(let i = 0; i < keys.length; i ++){
+          yield [keys[i], obj[keys[i]]]
+        }
+      }
+      let datas = {name: "chen", age: "30", height: "172cm"}
+      for(let [key, value] of iteratorForObj(datas)){
+        console.log(`key是${key},value是${value}`)
+      }
+    },
     handleClick() {
       if (!this.selectVal) {
         return
@@ -345,10 +508,8 @@ export default {
         this.clickNext()
       } else if (this.radio === "forOf") {
         this.clickForOf()
-      } else if (this.radio === "throw") {
-        this.clickThrow()
-      } else if (this.radio === "return") {
-        this.clickReturn()
+      } else{
+        this.clickYield()
       }
     },
     clickNext() {
@@ -393,12 +554,8 @@ export default {
           break;
       }
     },
-    clickThrow() {
-      let fnName = `throw${this.selectVal}`
-      this[fnName]()
-    },
-    clickReturn() {
-      let fnName = `return${this.selectVal}`
+    clickYield() {
+      let fnName = `${this.radio}${this.selectVal}`
       this[fnName]()
     }
   },
