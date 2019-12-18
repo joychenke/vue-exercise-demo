@@ -81,21 +81,127 @@ export default new Router({
 
 谈到组件 `prop`时，都是指父组件向子组件传值
 
+### 单向数据流
+
+父组件中的值变化时，子组件prop中的变量会同步刷新。
+
+子组件不能直接更改prop中的变量的值
+
+子组件希望改变prop的情况：
+
+1. prop用来传递一个数据，子组件作为本地的prop数据使用
+
+   ```javascript
+   props: ['initialCounter'],
+   data: function () {
+     return {
+       counter: this.initialCounter
+     }
+   }
+   ```
+
+   
+
+2. prop用来传递一个数据，子组件中利用prop的数据，computed一个新数据
+
+   ```javascript
+   props: ['size'],
+   computed: {
+     normalizedSize: function () {
+       return this.size.trim().toLowerCase()
+     }
+   }
+   ```
+
 ### 静态prop
 
-仅支持字符串和布尔值。字符串直接传。
+仅支持字符串和布尔值。字符串直接传。布尔值，传了就是true，没传就是false
 
 ```
-<basicText>
+<basicText title="blogTitle"></basicText>
 ```
-
-
 
 ### 动态prop
 
-每个变量有以下几个属性
++ 定义数组接收  ` props: ['title', 'likes', 'isPublished', 'commentIds', 'author'] `
 
-`type` `required` `default` 
++ 定义对象接收 
+
+  提供一个带有验证需求的对象，对象的每个元素就是需要接收的变量
+
+  每个变量有以下几个属性：`type` `required` `default` `validator`
+
+  注意：prop中的值会在组件实例创建之前进行验证。所有实例的属性（`data`，`computed`等）在`default`或`validator`函数中不可用。
+
+  `type`：类型检查
+
+  原生的构造函数有 `String`，`Number`，`Boolean`， `Array`， `Object`， `Date`，`Function`， `Symbol`   也可以用自己定义的构造函数
+
+  `default`： 默认值。要注意的是对象和数组的默认值要用工厂函数获取。
+
+  ```javascript
+  // 默认值是对象    { message:"hello"}
+  tip: {
+      type: Object,
+      default: () => {
+          return { message:"hello"}
+      }
+  }
+  ```
+
+  `validator`：自定义验证函数。`validator`是个验证函数，函数的参数是接收的参数的值，函数的返回值是true或false。返回true时，表示验证通过。否则不通过
+
+  ```json
+  propF: {
+  	validator: (value) => {
+          return ["success", "error", "info"].includes(value)
+      }
+  }
+  ```
+
+  ### 非Prop的特性
+
+  父组件向子组件，传递任意特性。子组件会把这个特性添加到组件的根元素。
+
+  父组件，在标签上用表达式传表达式 `class="div-wrapper"`
+
+  ```javascript
+  <computed-com :value="fieldValue" class="div-wrapper"
+                    @changeVal="handleChangeVal"></computed-com>
+  ```
+
+  ```html
+  <div class="div-wrapper">
+      // 子组件的内容
+  </div>
+  ```
+
+  加一个表达式，或者字符串，或者一个变量，都是可以的。
+
+  但是在子组件中，如果是等式，接收的还是等式，等号左右两边都是字符串。如果是表达式，接收的还是表达式。
+
+  ```html
+  // 父组件,border无论是不是变量，子组件中接收到的都是固定的border
+  <table-com border></table-com>
+  // 子组件中，
+  <div border>
+      
+  </div>
+  ```
+  
+  ```
+  // 父组件，等号的左右两边无论是什么，子组件接收到的都是固定的等式
+  <table-com border="false"></table-com>
+  <table-com border=false></table-com>
+  
+  <div border="false">
+      
+  </div>
+  
+  // 用这种方式传，就会接收不到
+  ```
+  
+  
 
 # 全局导航守卫beforeEach
 

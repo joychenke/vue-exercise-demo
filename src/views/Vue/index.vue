@@ -3,10 +3,10 @@
     Vue 模块
     <el-input v-model="fieldValue"></el-input>
     <h1>===================父子模块分割线================</h1>
-    <computed-com :value="fieldValue"
+    <computed-com :value="fieldValue" class="div-wrapper" stripe
                   @changeVal="handleChangeVal"></computed-com>
     <h1>===================table popover分割线================</h1>
-    <table-com></table-com>
+    <table-com :border="false"></table-com>
   </div>
 </template>
 <script>
@@ -15,7 +15,8 @@ import tableCom from "./table.vue";
 export default {
   data () {
     return {
-      fieldValue: ""
+      fieldValue: "",
+      border: false
     };
   },
   components: { computedCom, tableCom },

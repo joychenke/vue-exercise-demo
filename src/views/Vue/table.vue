@@ -3,10 +3,10 @@
             style="width: 100%" @select="handleSelect" @selection-change="handleSelChange">
     <el-table-column type="selection" width="60"></el-table-column>
     <el-table-column v-for="header in headers"
-                     :key="header.id">
+                     :key="header.id" :label="header.fieldName">
       <template slot="header"
                 slot-scope="scope">
-        <span @click="handleClick(scope)">{{ header.fieldName }}</span>
+        <!-- <span @click="handleClick(scope)">{{ header.fieldName }}</span> -->
         <filter-popover :ref="header.fieldName"
                         :fieldName="header.fieldName"
                         :value="currentField"

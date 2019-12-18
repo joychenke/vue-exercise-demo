@@ -46,3 +46,8 @@ export default {
   }
 };
 </script>
+<style scoped>
+.div-wrapper{
+  color: red;
+}
+</style>
