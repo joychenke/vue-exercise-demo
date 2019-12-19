@@ -159,49 +159,56 @@ export default new Router({
   }
   ```
 
-  ### 非Prop的特性
+### 非Prop特性
 
-  父组件向子组件，传递任意特性。子组件会把这个特性添加到组件的根元素。
+父组件向子组件，传递任意特性。子组件会把这个特性添加到组件的根元素。
 
-  父组件，在标签上用表达式传表达式 `class="div-wrapper"`
+父组件，在标签上用表达式传表达式 `class="div-wrapper"`
 
-  ```javascript
-  <computed-com :value="fieldValue" class="div-wrapper"
-                    @changeVal="handleChangeVal"></computed-com>
-  ```
+```javascript
+<computed-com :value="fieldValue" class="div-wrapper"
+                  @changeVal="handleChangeVal"></computed-com>
+```
 
-  ```html
-  <div class="div-wrapper">
-      // 子组件的内容
-  </div>
-  ```
+```html
+<div class="div-wrapper">
+    // 子组件的内容
+</div>
+```
 
-  加一个表达式，或者字符串，或者一个变量，都是可以的。
+加一个表达式，或者字符串，或者一个变量，都是可以的。
 
-  但是在子组件中，如果是等式，接收的还是等式，等号左右两边都是字符串。如果是表达式，接收的还是表达式。
+但是在子组件中，如果是等式，接收的还是等式，等号左右两边都是字符串。如果是表达式，接收的还是表达式。
 
-  ```html
-  // 父组件,border无论是不是变量，子组件中接收到的都是固定的border
-  <table-com border></table-com>
-  // 子组件中，
-  <div border>
-      
-  </div>
-  ```
-  
-  ```
-  // 父组件，等号的左右两边无论是什么，子组件接收到的都是固定的等式
-  <table-com border="false"></table-com>
-  <table-com border=false></table-com>
-  
-  <div border="false">
-      
-  </div>
-  
-  // 用这种方式传，就会接收不到
-  ```
-  
-  
+```html
+// 父组件,border无论是不是变量，子组件中接收到的都是固定的border
+<table-com border></table-com>
+// 子组件中，
+<div border>
+    
+</div>
+```
+
+```
+// 父组件，等号的左右两边无论是什么，子组件接收到的都是固定的等式
+<table-com border="false"></table-com>
+<table-com border=false></table-com>
+
+<div border="false">
+    
+</div>
+
+// 用这种方式传，就会接收不到
+```
+
+非prop特性的替换/合并规则是：
+
++ 非class和style样式【例如 type=“date”】，会替换掉子组件内部的相同属性
++ class和style特性，会合并。比如子组件的根节点有 `class="form-control"`，父组件中再传一个 ` class="date-picker-theme-dark" `, 此时子组件的根元素有 `form-control`和 `date-picker-theme-dark`的  `class`
+
+### 禁用特性继承
+
+
 
 # 全局导航守卫beforeEach
 
